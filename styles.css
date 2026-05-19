@@ -169,7 +169,8 @@ img {
   width: 26px;
   height: 3px;
   background: var(--white);
-  transition: all var(--transition);
+  transition: all 0.25s ease;
+  transform-origin: center;
 }
 
 .nav.scrolled .nav-toggle span {
@@ -177,15 +178,16 @@ img {
 }
 
 .nav-toggle.open span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 6px);
+  transform: translateY(8px) rotate(45deg);
 }
 
 .nav-toggle.open span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .nav-toggle.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -6px);
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* ---- Buttons ---- */

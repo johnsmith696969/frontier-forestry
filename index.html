@@ -215,7 +215,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <div>
               <h4>Email</h4>
-              <a href="mailto:caleb@frontierforestry.com">caleb@frontierforestry.com</a>
+              <a href="mailto:caleb@frontierforestryequipment.com">caleb@frontierforestryequipment.com</a>
             </div>
           </div>
           <div class="contact-item">
@@ -232,7 +232,7 @@
             Sunday: Closed</p>
           </div>
         </div>
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/FORM_ID" method="POST">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required placeholder="Your name">
@@ -288,7 +288,7 @@
         <div class="footer-contact">
           <h4>Contact</h4>
           <p><a href="tel:6126008268">(612) 600-8268</a></p>
-          <p><a href="mailto:caleb@frontierforestry.com">caleb@frontierforestry.com</a></p>
+          <p><a href="mailto:caleb@frontierforestryequipment.com">caleb@frontierforestryequipment.com</a></p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -331,15 +331,32 @@
       });
     });
 
-    // Contact form handler
+    // Contact form handler (Formspree)
     const form = document.getElementById('contactForm');
     const formStatus = document.getElementById('formStatus');
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      // For now, show a success message. Replace with real form handling later.
-      formStatus.textContent = 'Thanks for reaching out! I\'ll get back to you soon.';
-      formStatus.classList.add('success');
-      form.reset();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          formStatus.textContent = 'Thanks for reaching out! I\'ll get back to you soon.';
+          formStatus.classList.add('success');
+          form.reset();
+        } else {
+          formStatus.textContent = 'Something went wrong. Please call or email me directly.';
+        }
+      } catch {
+        formStatus.textContent = 'Something went wrong. Please call or email me directly.';
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
       setTimeout(() => {
         formStatus.textContent = '';
         formStatus.classList.remove('success');
